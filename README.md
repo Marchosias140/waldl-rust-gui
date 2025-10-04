@@ -1,3 +1,6 @@
+Fork in order to experiment with the app, not meant to be used for anything productive.
+
+
 # waldl
 
 Browser [wallhaven](https://wallhaven.cc/) using `sxiv`
