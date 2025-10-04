@@ -1,4 +1,4 @@
-INSTALL_PATH := /usr/local/bin
+INSTALL_PATH := /usr/bin
 
 install:
 	# Make Script accessable from everywhere
