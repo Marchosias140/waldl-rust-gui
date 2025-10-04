@@ -1,3 +1,4 @@
+
 #!/bin/sh
 
 # https://github.com/pystardust/waldl
@@ -21,7 +22,7 @@ walldir="$HOME/.local/share/wallhaven"
 # the dir used to cache thumbnails
 cachedir="$HOME/.cache/wallhaven"
 # sxiv options
-sxiv_otps=" -tfpo -z 200" # o is needed for selection
+nsxiv_otps=" -tfpo -z 200" # o is needed for selection
 # number of pages to show in search results
 # each page contains 24 results
 max_pages=4
@@ -134,11 +135,11 @@ done | curl -Z -K -
 #sh_info "downloaded thumbnails..."
 
 ###########################
-## user selection (sxiv) ##
+## user selection (nsxiv) ##
 ###########################
 
 # extract the id's out of the thumbnail name
-image_ids="$($VIEWER $sxiv_otps "$cachedir")"
+image_ids="$($VIEWER $nsxiv_otps "$cachedir")"
 [ -z "$image_ids" ] && exit
 
 #########################
