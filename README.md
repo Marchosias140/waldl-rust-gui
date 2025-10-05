@@ -1,14 +1,51 @@
-Fork in order to experiment with the app, not meant to be used for anything productive.
-
-Experiments done so far:
-
--Changed sxiv for nsxiv.
+Instructions:
 
 
+This work was created as a place to experiment with waldl, and ultimately lead to the here published Rust GUI for wldl.
+I chose Rust over Python as I often do because I love cargo for compiling stuff.
+The app shows thumbnails and downloads the wallpaper in 4k to your default Downloads folder by clicking on it.
+I also changed sxiv for nsxiv, because both the original wldl script and sxiv were from a few years ago.
+
+
+Compile with:
+
+``` cargo check ```
 
 
 
--Created a GUI in Python that has several flaws, including not being able to display thumbnails.
+So you know it compiles.
+
+
+Then
+
+
+```cargo run```
+
+
+if you want to try the binary, or
+
+
+
+```cargo build --release```
+
+
+
+if you want the fully optimized binary.
+
+
+
+
+
+The binary will be in the same folder you had the provided files, inside target/release.
+
+
+
+
+
+
+
+
+Enjoy!
 
 
 # waldl
