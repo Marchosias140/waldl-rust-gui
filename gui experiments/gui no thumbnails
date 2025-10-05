@@ -1,0 +1,111 @@
+import os
+import subprocess
+import sys
+import tkinter as tk
+from tkinter import messagebox, Listbox, END, filedialog
+import requests
+import shutil
+import hashlib
+from PIL import Image
+
+
+class WallhavenDownloader(tk.Tk):
+    def __init__(self):
+        super().__init__()
+
+        self.title("Wallhaven Downloader")
+        self.geometry("600x400")
+
+        self.query_label = tk.Label(self, text="Enter search query:")
+        self.query_label.pack(pady=10)
+
+        self.query_entry = tk.Entry(self, width=40)
+        self.query_entry.pack(pady=5)
+
+        self.download_button = tk.Button(self, text="Search", command=self.download_wallpapers)
+        self.download_button.pack(pady=10)
+
+        self.image_listbox = Listbox(self)
+        self.image_listbox.pack(fill='both', expand=True, padx=10, pady=10)
+        self.image_listbox.bind('<<ListboxSelect>>', self.on_select)
+
+        # Add a button to select the download directory
+        self.download_dir_button = tk.Button(self, text="Select Download Directory", command=self.select_directory)
+        self.download_dir_button.pack()
+
+        self.download_dir = os.path.expanduser("~")  # Default to home directory
+
+    def select_directory(self):
+        dirname = filedialog.askdirectory()
+        if dirname:
+            self.download_dir = dirname
+            print(f"Selected download directory: {self.download_dir}")
+
+    def download_wallpapers(self):
+        query = self.query_entry.get()
+        if not query:
+            messagebox.showerror("Error", "Please enter a search query")
+            return
+
+        # Clear previous results
+        self.image_listbox.delete(0, END)
+
+        # Fetch data from Wallhaven API
+        response = requests.get(f"https://wallhaven.cc/api/v1/search?q={query}&sorting=relevance")
+        if response.status_code != 200:
+            messagebox.showerror("Error", "Failed to fetch data from Wallhaven API")
+            return
+
+        data = response.json()
+        if not data['data']:
+            messagebox.showinfo("Info", "No images found")
+            return
+
+        # Populate the listbox with image thumbnails
+        for img in data['data']:
+            url = img['path']  # use full image URL instead of thumbnail
+            self.image_listbox.insert(END, url)
+
+    def on_select(self, event):
+        widget = event.widget
+        selection = widget.get(widget.curselection())
+        self.download_wallpaper(selection)
+
+    def download_wallpaper(self, url):
+        try:
+            response = requests.get(url, stream=True)
+            if response.status_code == 200:
+                # Generate a unique filename
+                local_filename = hashlib.md5(url.encode()).hexdigest() + '.jpg'
+                save_path = os.path.join(self.download_dir, local_filename)
+
+                # Save the original file
+                with open(save_path, 'wb') as f:
+                    shutil.copyfileobj(response.raw, f)
+
+                # Resize to 4K (3840x2160)
+                img = Image.open(save_path)
+                if img.mode in ("RGBA", "P"):
+                 img = img.convert("RGB")
+                img = img.resize((3840, 2160), Image.Resampling.LANCZOS)
+                img.save(save_path, "JPEG", quality=95)
+
+                # Notify user
+                messagebox.showinfo("Info", "Wallpaper downloaded successfully in 4K!")
+
+                # Open the wallpaper in the default image viewer
+                if sys.platform.startswith('darwin'):  # macOS
+                    subprocess.call(('open', save_path))
+                elif os.name == 'nt':  # Windows
+                    os.startfile(save_path)
+                elif os.name == 'posix':  # Linux
+                    subprocess.call(('xdg-open', save_path))
+            else:
+                messagebox.showerror("Error", "Failed to download wallpaper")
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
+
+
+if __name__ == "__main__":
+    app = WallhavenDownloader()
+    app.mainloop()
