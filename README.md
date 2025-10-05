@@ -1,5 +1,15 @@
 Fork in order to experiment with the app, not meant to be used for anything productive.
 
+Experiments done so far:
+
+-Changed sxiv for nsxiv.
+
+
+
+
+
+-Created a GUI in Python that has several flaws, including not being able to display thumbnails.
+
 
 # waldl
 
