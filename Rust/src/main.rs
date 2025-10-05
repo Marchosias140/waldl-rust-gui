@@ -45,7 +45,7 @@ impl Default for WallhavenApp {
 impl eframe::App for WallhavenApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         egui::CentralPanel::default().show(ctx, |ui| {
-            ui.heading("wldl (Grid Layout)");
+            ui.heading("waldl (Grid Layout)");
 
             ui.horizontal(|ui| {
                 ui.label("Enter search query:");
@@ -164,7 +164,7 @@ impl WallhavenApp {
 fn main() -> eframe::Result<()> {
     let native_options = eframe::NativeOptions::default();
     eframe::run_native(
-        "wldl",
+        "waldl",
         native_options,
         Box::new(|_cc| {
             Ok(Box::new(WallhavenApp::default()) as Box<dyn eframe::App>)
