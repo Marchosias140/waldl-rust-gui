@@ -1,3 +1,9 @@
+Updates:
+
+- Fixed a typo on the main.rs and Cargo.toml regarding the name of the app.
+
+
+
 Instructions:
 
 
