@@ -4,11 +4,18 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+# Interfaz gráfica
 eframe = "0.29"
 egui_extras = "0.29"
+
+# HTTP y JSON
 reqwest = { version = "0.11", features = ["blocking", "json"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
+
+# Manejo de imágenes
 image = { version = "0.24", features = ["jpeg", "png"] }
+
+# Utilidades
 sha1 = "0.10"
 dirs = "5.0"
