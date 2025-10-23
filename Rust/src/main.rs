@@ -249,21 +249,13 @@ impl WallhavenApp {
                     let save_path = self.download_dir.join(filename);
 
                     if let Ok(img) = image::load_from_memory(&bytes) {
-                        let resized = img.resize_exact(
-                            3840,
-                            2160,
-                            image::imageops::FilterType::Lanczos3,
-                        );
-                        if let Ok(mut file) = File::create(&save_path) {
-                            if resized
-                                .write_to(&mut file, image::ImageFormat::Jpeg)
-                                .is_ok()
-                            {
-                                self.status =
-                                    format!("Saved wallpaper to {}", save_path.display());
-                            }
-                        }
-                    }
+    if let Ok(mut file) = File::create(&save_path) {
+        if img.write_to(&mut file, image::ImageFormat::Jpeg).is_ok() {
+            self.status = format!("Saved wallpaper to {}", save_path.display());
+        }
+    }
+}
+
                 }
             }
             _ => {
@@ -283,3 +275,11 @@ fn main() -> eframe::Result<()> {
         }),
     )
 }
+
+
+ 
+                  
+                  
+                  
+                  
+                  
