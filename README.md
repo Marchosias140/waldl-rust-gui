@@ -1,5 +1,7 @@
 Updates:
 
+- Fixed an issue with a deprecated feature the experimental configuration had, that resized all the downloaded images to 4k resolution. Now the images are downloaded in their original resolution, thus preserving the desired aspect ratio. 
+
 - Added categories, pages in order to display more than the default 24 wallpapers, SFW/NSFW toggle options and aspect ratio options. 
 
 - Fixed a typo on the main.rs and Cargo.toml regarding the name of the app.
